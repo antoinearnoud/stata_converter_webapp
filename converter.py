@@ -7,6 +7,7 @@ import streamlit as st
 import pandas as pd
 import os
 import base64
+import datetime
 
 st.title("Stata Converter WebApp")
 st.warning("Application created by antoine.arnoud@pm.com to convert Stata files into previous versions.")
@@ -25,7 +26,21 @@ def get_binary_file_downloader_html(bin_file, file_label='File'):
     href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
     return href
 
+def delete_old_files():
+    files = os.listdir("temp/")
+    #st.write(files)
+    if (files is None) or (files == []):
+        #st.write("files is none")
+        return
+    for file in files:
+        curpath = os.path.join("temp", file)
+        file_modified = datetime.datetime.fromtimestamp(os.path.getmtime(curpath))
+        st.write(file + " was modified at " + str(file_modified))
+        if datetime.datetime.now() - file_modified > datetime.timedelta(hours=1):
+            print("deleting: " + file)
+            os.remove(curpath)
 
+delete_old_files()
 file_uploaded = st.file_uploader("Choose a Stata file to convert", type=["dta"])
 if not (file_uploaded is None):
     df = load_stata(file_uploaded)
