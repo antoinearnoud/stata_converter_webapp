@@ -33,12 +33,15 @@ def delete_old_files():
         #st.write("files is none")
         return
     for file in files:
+        if files == "readme.md":
+            continue
         curpath = os.path.join("temp", file)
         file_modified = datetime.datetime.fromtimestamp(os.path.getmtime(curpath))
         st.write(file + " was modified at " + str(file_modified))
         if datetime.datetime.now() - file_modified > datetime.timedelta(hours=1):
             print("deleting: " + file)
             os.remove(curpath)
+
 
 delete_old_files()
 file_uploaded = st.file_uploader("Choose a Stata file to convert", type=["dta"])
