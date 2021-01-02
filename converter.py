@@ -11,7 +11,7 @@ import datetime
 
 st.title("Stata Converter WebApp")
 st.warning("Application created by antoine.arnoud@pm.com to convert Stata files into previous versions.")
-
+st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
 
 @st.cache(suppress_st_warning=True, show_spinner=False)
 def load_stata(filename):
@@ -33,11 +33,11 @@ def delete_old_files():
         #st.write("files is none")
         return
     for file in files:
-        if files == "readme.md":
+        if file == "readme.md":
             continue
         curpath = os.path.join("temp", file)
         file_modified = datetime.datetime.fromtimestamp(os.path.getmtime(curpath))
-        st.write(file + " was modified at " + str(file_modified))
+        #st.write(file + " was modified at " + str(file_modified))
         if datetime.datetime.now() - file_modified > datetime.timedelta(hours=1):
             print("deleting: " + file)
             os.remove(curpath)
@@ -55,8 +55,9 @@ if not (file_uploaded is None):
     if version == "Stata 13": extension, ver = "_v13", 117
     if version == "Stata 14": extension, ver = "_v14", 118
     newname = base_filename + extension + ".dta"
-    df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
+    if st.button('Convert file'):
+        df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
     #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
     #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
-    st.info("Download converted file")
-    st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='File'), unsafe_allow_html=True)
+        st.info("Download converted file below")
+        st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='File'), unsafe_allow_html=True)
