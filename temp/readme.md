@@ -1,1 +1,2 @@
-# this folder contains the uploaded files. They get deleted when they are older than 1 hour.
+# readme.md
+This folder contains files uploaded. Files are deleted after 1 hour.
