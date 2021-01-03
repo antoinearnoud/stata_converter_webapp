@@ -10,7 +10,7 @@ import base64
 import datetime
 
 st.title("Stata Converter WebApp")
-st.warning("Application created by antoine.arnoud@pm.com to convert Stata files into previous versions.")
+st.info("Application created by antoine.arnoud@pm.com to convert Stata files into previous versions.")
 st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
 
 @st.cache(suppress_st_warning=True, show_spinner=False)
@@ -42,8 +42,9 @@ def delete_old_files():
             print("deleting: " + file)
             os.remove(curpath)
 
-
+# delete files in /temp/ older than 1 hour
 delete_old_files()
+# upload file to convert
 file_uploaded = st.file_uploader("Choose a Stata file to convert", type=["dta"])
 if not (file_uploaded is None):
     df = load_stata(file_uploaded)
@@ -56,8 +57,9 @@ if not (file_uploaded is None):
     if version == "Stata 14": extension, ver = "_v14", 118
     newname = base_filename + extension + ".dta"
     if st.button('Convert file'):
-        df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
-    #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
-    #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
-        st.info("Download converted file below")
-        st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='File'), unsafe_allow_html=True)
+        with st.spinner('Conversion in progress...'):
+            df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
+        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+        #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
+        #st.warning("Download converted file below")
+        st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='converted stata file'), unsafe_allow_html=True)
