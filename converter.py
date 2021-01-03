@@ -45,7 +45,7 @@ def delete_old_files():
 # delete files in /temp/ older than 1 hour
 delete_old_files()
 # upload file to convert
-file_uploaded = st.file_uploader("Choose a Stata file to convert", type=["dta"])
+file_uploaded = st.file_uploader("Choose a Stata file to convert (files are deleted from the server after 20 minutes)", type=["dta"], accept_multiple_files = False)
 if not (file_uploaded is None):
     df = load_stata(file_uploaded)
     file_details = {"FileName":file_uploaded.name,"FileType":file_uploaded.type,"FileSize":file_uploaded.size}
