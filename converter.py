@@ -10,7 +10,7 @@ import base64
 import datetime
 
 st.title("Stata Converter WebApp")
-st.info("Application by antoine.arnoud@gmail.com to convert Stata files into oldest Stata versions.")
+st.info("Application by antoine.arnoud@gmail.com to convert Stata files into previous Stata versions.")
 #st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
 
 #st.sidebar.info('Created by antoine.arnoud@gmail.com')
