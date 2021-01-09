@@ -62,7 +62,6 @@ delete_old_files()
 # upload file to convert
 file_uploaded = st.file_uploader("Choose a Stata file to convert (files are deleted from the server after 20 minutes)", type=["dta"], accept_multiple_files = False)
 if not (file_uploaded is None):
-    df = load_stata(file_uploaded)
     file_details = {"FileName":file_uploaded.name,"FileType":file_uploaded.type,"FileSize":file_uploaded.size}
     filename = file_details["FileName"]
     size = file_details['FileSize']
@@ -75,6 +74,9 @@ if not (file_uploaded is None):
     if st.button('Convert file'):
         record_file_name(filename, size, version)
         with st.spinner('Conversion in progress...'):
+            df = load_stata(file_uploaded)
+            if os.path.exists(os.path.join('temp', newname)): #add an extension if the file already exists (because it might be the file of somebody else; so shouldn't download it)
+                newname = base_filename + '_' + datetime.datetime.now().strftime("%H%M%S")  + extension + ".dta"
             df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
         #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
         #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
