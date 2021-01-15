@@ -12,6 +12,8 @@ import datetime
 st.title("Stata Converter WebApp")
 st.info("Application by antoine.arnoud@gmail.com to convert Stata files into previous Stata versions.")
 #st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
+st.markdown('Desktop application available for <a href="https://www.dropbox.com/sh/uv3g73e8hjltg84/AABJx5xFthkrtNbi2TGyRw9Ba?dl=0"> Mac </a>', unsafe_allow_html=True)
+
 
 #st.sidebar.info('Created by antoine.arnoud@gmail.com')
 #st.sidebar.warning('Report errors')
@@ -65,20 +67,23 @@ if not (file_uploaded is None):
     file_details = {"FileName":file_uploaded.name,"FileType":file_uploaded.type,"FileSize":file_uploaded.size}
     filename = file_details["FileName"]
     size = file_details['FileSize']
-    version = st.radio("Convert file to Stata version", ["Stata 10", "Stata 13", "Stata 14"])
-    base_filename = filename.replace(".dta","")
-    if version == "Stata 10": extension, ver = "_v10", 114
-    if version == "Stata 13": extension, ver = "_v13", 117
-    if version == "Stata 14": extension, ver = "_v14", 118
-    newname = base_filename + extension + ".dta"
-    if st.button('Convert file'):
-        record_file_name(filename, size, version)
-        with st.spinner('Conversion in progress...'):
-            df = load_stata(file_uploaded)
-            if os.path.exists(os.path.join('temp', newname)): #add an extension if the file already exists (because it might be the file of somebody else; so shouldn't download it)
-                newname = base_filename + '_' + datetime.datetime.now().strftime("%H%M%S")  + extension + ".dta"
-            df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
-        #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
-        #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
-        #st.warning("Download converted file below")
-        st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='converted stata file'), unsafe_allow_html=True)
+    if size > 40000000:
+        st.warning("File too big: web app limited to files under 40MB. Try the desktop application.")
+    else:
+        version = st.radio("Convert file to Stata version", ["Stata 10", "Stata 13", "Stata 14"])
+        base_filename = filename.replace(".dta","")
+        if version == "Stata 10": extension, ver = "_v10", 114
+        if version == "Stata 13": extension, ver = "_v13", 117
+        if version == "Stata 14": extension, ver = "_v14", 118
+        newname = base_filename + extension + ".dta"
+        if st.button('Convert file'):
+            record_file_name(filename, size, version)
+            with st.spinner('Conversion in progress. Be patient...'):
+                df = load_stata(file_uploaded)
+                if os.path.exists(os.path.join('temp', newname)): #add an extension if the file already exists (because it might be the file of somebody else; so shouldn't download it)
+                    newname = base_filename + '_' + datetime.datetime.now().strftime("%H%M%S")  + extension + ".dta"
+                df.to_stata(os.path.join('temp', newname), version = ver, write_index = False)
+            #st.markdown(get_table_download_link(df), unsafe_allow_html=True)
+            #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
+            #st.warning("Download converted file below")
+            st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='converted stata file: ' + newname), unsafe_allow_html=True)
