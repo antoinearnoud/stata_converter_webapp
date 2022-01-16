@@ -15,7 +15,7 @@ st.info("Application by antoine.arnoud@gmail.com to convert Stata files into pre
 st.markdown('Desktop application available for <a href="https://www.dropbox.com/sh/uv3g73e8hjltg84/AABJx5xFthkrtNbi2TGyRw9Ba?dl=0"> Mac </a>', unsafe_allow_html=True)
 
 text_contents = '''This is some text'''
-st.download_button("Download the file", text_contents)
+#st.download_button("Download the file", text_contents)
 
 #st.sidebar.info('Created by antoine.arnoud@gmail.com')
 #st.sidebar.warning('Report errors')
@@ -89,3 +89,4 @@ if not (file_uploaded is None):
             #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
             #st.warning("Download converted file below")
             st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='converted stata file: ' + newname), unsafe_allow_html=True)
+            st.download_button("Download the file", text_contents)
