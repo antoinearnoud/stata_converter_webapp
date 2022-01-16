@@ -89,4 +89,6 @@ if not (file_uploaded is None):
             #f'<a href="data:file/csv;base64,{b64}" download="myfilename.csv">Download csv file</a>'
             #st.warning("Download converted file below")
             st.markdown(get_binary_file_downloader_html(os.path.join('temp', newname), file_label='converted stata file: ' + newname), unsafe_allow_html=True)
-            st.download_button("Download the file", text_contents)
+        
+        # This is a button so not convenieent to put below another button
+        #st.download_button("Download the file", BINARY FILE)
