@@ -10,3 +10,7 @@ conda activate stata_webapp
 
 To update streamlit use
 pip install --upgrade streamlit
+
+This repo has remote on heroku and on github. Use:
+git push heroku master
+git push origin master
