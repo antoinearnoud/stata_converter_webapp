@@ -1,7 +1,4 @@
-# Note: run with pythonw cameleon.py
-# to run this program
-# activate environment: conda activate insight
-# run: streamlit run shibah.py
+# to run this program, you need to install streamlit and pandas
 
 import streamlit as st
 import pandas as pd
@@ -11,10 +8,10 @@ import datetime
 
 st.title("Stata Converter WebApp")
 st.info("Application by antoine.arnoud@gmail.com to convert Stata files into previous Stata versions.")
-#st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
-st.markdown('Desktop application available for <a href="https://www.dropbox.com/sh/uv3g73e8hjltg84/AABJx5xFthkrtNbi2TGyRw9Ba?dl=0"> Mac </a>', unsafe_allow_html=True)
+st.markdown('Desktop application available for <a href="https://github.com/antoinearnoud/stata_converter"> Mac </a>', unsafe_allow_html=True)
+#st.markdown('Desktop application available for <a href="https://www.dropbox.com/sh/uv3g73e8hjltg84/AABJx5xFthkrtNbi2TGyRw9Ba?dl=0"> Mac </a>', unsafe_allow_html=True)
 
-text_contents = '''This is some text'''
+#text_contents = '''This is some text'''
 #st.download_button("Download the file", text_contents)
 
 #st.sidebar.info('Created by antoine.arnoud@gmail.com')
