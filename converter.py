@@ -61,7 +61,7 @@ def record_file_name(filename, size, version):
 # delete files in /temp/ older than 1 hour
 delete_old_files()
 # upload file to convert
-file_uploaded = st.file_uploader("Choose a Stata file to convert (files are deleted from the server after 20 minutes)", type=["dta"], accept_multiple_files = False)
+file_uploaded = st.file_uploader("Choose a Stata file to convert (files are deleted from the server when you close the tab)", type=["dta"], accept_multiple_files = False)
 if not (file_uploaded is None):
     file_details = {"FileName":file_uploaded.name,"FileType":file_uploaded.type,"FileSize":file_uploaded.size}
     filename = file_details["FileName"]
